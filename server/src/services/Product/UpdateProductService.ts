@@ -8,32 +8,31 @@ interface Request {
   value: number;
   rating: number;
   thumbmail: string;
+  id: string;
 }
 
-class CreateProductService {
+class UpdateProductService {
   public async execute({
     name,
     type,
     value,
     rating,
     thumbmail,
-  }: Request): Promise<void | Product> {
+    id,
+  }: Request): Promise<null | void | Product> {
     try {
-      const newProduct: Product = new ProductModel({
+      const product = await ProductModel.findByIdAndUpdate(id, {
         name,
         type,
         value,
         rating,
         thumbmail,
       });
-
-      console.log(newProduct);
-      await newProduct.save();
-
-      return newProduct;
+      return product;
     } catch (err) {
       return console.log(err);
     }
   }
 }
-export default CreateProductService;
+
+export default UpdateProductService;
