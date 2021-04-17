@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import CreateProductService from '../services/Product/CreateProductService';
 import UpdateProductService from '../services/Product/UpdateProductService';
+import DeleteProductService from '../services/Product/DeleteProductService';
 
 const productsRouter = Router();
 
@@ -43,6 +44,17 @@ productsRouter.put('/:id', async (request, response) => {
       thumbmail,
       id,
     });
+    return response.json(product);
+  } catch (err) {
+    return response.json(err);
+  }
+});
+productsRouter.delete('/:id', async (request, response) => {
+  try {
+    const { id } = request.params;
+    const deleteProduct = new DeleteProductService();
+    const product = await deleteProduct.execute({ id });
+
     return response.json(product);
   } catch (err) {
     return response.json(err);
