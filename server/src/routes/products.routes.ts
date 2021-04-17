@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { Router } from 'express';
 import CreateProductService from '../services/Product/CreateProductService';
+import UpdateProductService from '../services/Product/UpdateProductService';
 
 const productsRouter = Router();
 
@@ -21,6 +22,27 @@ productsRouter.post('/', async (request, response) => {
       thumbmail,
     });
 
+    return response.json(product);
+  } catch (err) {
+    return response.json(err);
+  }
+});
+
+productsRouter.put('/:id', async (request, response) => {
+  try {
+    const { name, type, value, rating, thumbmail } = request.body;
+    const { id } = request.params;
+
+    const updateProduct = new UpdateProductService();
+
+    const product = await updateProduct.execute({
+      name,
+      type,
+      value,
+      rating,
+      thumbmail,
+      id,
+    });
     return response.json(product);
   } catch (err) {
     return response.json(err);
