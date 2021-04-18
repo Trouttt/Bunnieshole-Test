@@ -6,9 +6,13 @@ interface Request {
 }
 
 class DeleteProductService {
-  public async execute({ id }: Request): Promise<null | Product> {
-    const product = await ProductModel.findByIdAndDelete({ _id: id });
-    return product;
+  public async execute({ id }: Request): Promise<null | undefined | Product> {
+    try {
+      const product = await ProductModel.findByIdAndDelete({ _id: id });
+      return product;
+    } catch (err) {
+      return err;
+    }
   }
 }
 
